@@ -10,49 +10,16 @@
     That is, their values do not actually come from the database! Refactor this
     page to use a 'for' loop to display all plants with the data passed from the
     route function's context. HINT: Use the plant's _id field as the id for
-    constructing URLs. #}
-
+    constructing URLs. #} {% for plant in plants %}
     <div id="items">
       <div class="card">
-        <a href="/plant/1"
-          ><img
-            src="https://www.almanac.com/sites/default/files/styles/primary_image_in_article/public/image_nodes/tomatoes_helios4eos_gettyimages-edit.jpeg?itok=4KrW14a4"
-        /></a>
+        <a href="/plant/plant1"><img src="{{ plant.photo_url }}" /></a>
         <div class="card-content">
-          <a href="/plant/1">Tomato</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <a href="/plant/2"
-          ><img
-            src="https://post.healthline.com/wp-content/uploads/2021/03/corn-cob-field-1200x628-facebook-1200x628.jpg"
-        /></a>
-        <div class="card-content">
-          <a href="/plant/2">Corn</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <a href="/plant/3"
-          ><img
-            src="https://cdn.shopify.com/s/files/1/1698/1675/products/Herb_Italian_Basil.jpg?v=1557458148"
-        /></a>
-        <div class="card-content">
-          <a href="/plant/3">Basil</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <a href="/plant/4"
-          ><img
-            src="https://img.thrfun.com/img/077/665/jalapeno_peppers_s1.jpg"
-        /></a>
-        <div class="card-content">
-          <a href="/plant/4">Jalapeno</a>
+          <a href="/plant/1">{{ plant.name }}</a>
         </div>
       </div>
     </div>
+    {% endfor %}
   </div>
 </main>
 
