@@ -68,16 +68,20 @@ def detail(plant_id):
 
     # TODO: Replace the following line with a database call to retrieve *one*
     # plant from the database, whose id matches the id passed in via the URL.
-    plant_to_show = ''
+    
+    print(plant_id)
+    searchParams = {'_id': ObjectId(plant_id)}
+    selected_plant_document = mongo.db.plants.find_one(searchParams)
 
     # TODO: Use the `find` database operation to find all harvests for the
     # plant's id.
     # HINT: This query should be on the `harvests` collection, not the `plants`
     # collection.
-    harvests = ''
+    harvests = mongo.db.harvests.find(searchParams)
+    print(harvests)
 
     context = {
-        'plant' : plant_to_show,
+        'plant' : selected_plant_document,
         'harvests': harvests
     }
     return render_template('detail.html', **context)
