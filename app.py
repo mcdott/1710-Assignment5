@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, render_template, url_for
-from flask_pymongo import PyMongo
+from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 ############################################################
@@ -8,8 +8,23 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-app.config["MONGO_URI"] = "mongodb://localhost:27017/plantsDatabase"
-mongo = PyMongo(app)
+# client = MongoClient('localhost', 27017)
+# db = client.plants_db
+# plants = db.plants
+# # harvests = db.harvests
+# harvests = client.harvests_db.harvests
+
+myclient = MongoClient("mongodb://localhost:27017/")
+plants_db = myclient["plants"]
+plants = plants_db["plants"]
+
+harvests_db = myclient["harvests"]
+harvests = harvests_db["harvests"]
+
+
+
+# app.config["MONGO_URI"] = "mongodb://localhost:27017/plantsDatabase"
+# mongo = PyMongo(app)
 
 ############################################################
 # ROUTES
@@ -21,7 +36,7 @@ def plants_list():
 
     # TODO: Replace the following line with a database call to retrieve *all*
     # plants from the Mongo database's `plants` collection.
-    plants_data = mongo.db.plants.find()
+    plants_data = plants.find()
 
     context = {
         'plants': plants_data,
@@ -50,14 +65,9 @@ def create():
         # database's `plants` collection, and get its inserted id. Pass the 
         # inserted id into the redirect call below.
 
-        mongo.db.plants.insert_one(new_plant)
-        searchParam = {'name': plant_name}
-        new_plant_document = mongo.db.plants.find_one(searchParam)
-        # print(new_plant_document)
-        new_plant_id = new_plant_document['_id']
-        # print(new_plant_id)
+        new_plant_id = plants.insert_one(new_plant).inserted_id
 
-        return redirect(url_for('detail', plant_id='new_plant_id'))
+        return redirect(url_for('detail', plant_id= new_plant_id))
 
     else:
         return render_template('create.html')
@@ -69,20 +79,22 @@ def detail(plant_id):
     # TODO: Replace the following line with a database call to retrieve *one*
     # plant from the database, whose id matches the id passed in via the URL.
     
-    print(plant_id)
+    # print(plant_id)
     searchParams = {'_id': ObjectId(plant_id)}
-    selected_plant_document = mongo.db.plants.find_one(searchParams)
+    selected_plant_document = plants.find_one(searchParams)
+    print('*******')
+    print(selected_plant_document) # this prints the document correctly
 
     # TODO: Use the `find` database operation to find all harvests for the
     # plant's id.
     # HINT: This query should be on the `harvests` collection, not the `plants`
     # collection.
-    harvests = mongo.db.harvests.find(searchParams)
-    print(harvests)
+    searchParams = {'plant_id': plant_id}
+    harvests_result = harvests.find(searchParams)
 
     context = {
         'plant' : selected_plant_document,
-        'harvests': harvests
+        'harvests': harvests_result
     }
     return render_template('detail.html', **context)
 
@@ -95,14 +107,19 @@ def harvest(plant_id):
     # TODO: Create a new harvest object by passing in the form data from the
     # detail page form.
     new_harvest = {
-        'quantity': '', # e.g. '3 tomatoes'
-        'date': '',
-        'plant_id': plant_id
+        'quantity': request.form.get('harvested_amount'), # e.g. '3 tomatoes'
+        'date': request.form.get('date_harvested'),
+        'plant_id': plant_id,
+        # '_id': ObjectId(plant_id) this causes duplicate key error for id
     }
 
     # TODO: Make an `insert_one` database call to insert the object into the 
     # `harvests` collection of the database.
 
+    new_harvest = harvests.insert_one(new_harvest).inserted_id
+    print('###')
+    print(new_harvest)
+    # harvests.insert_one(new_harvest)
     return redirect(url_for('detail', plant_id=plant_id))
 
 @app.route('/edit/<plant_id>', methods=['GET', 'POST'])
