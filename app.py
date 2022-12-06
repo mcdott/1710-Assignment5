@@ -30,6 +30,12 @@ def plants_list():
     }
     return render_template('plants_list.html', **context)
 
+# Create Custom Error Page for an invalid URL
+@app.errorhandler(404)
+def page_not_found(e):
+    """Displays a custom 404 error page if the user enters an invalid URL"""
+    return render_template('404.html'), 404
+
 @app.route('/about')
 def about():
     """Display the about page."""
