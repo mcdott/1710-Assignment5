@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-myclient = MongoClient("mongodb://mongo:27017/")
+myclient = MongoClient("mongodb://srv-captain--mongo:27017/")
 plants_db = myclient["plants"]
 plants = plants_db["plants"]
 harvests_db = myclient["harvests"]

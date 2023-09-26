@@ -4,11 +4,11 @@ services:
   web:
     build: .
     ports:
-      - "5002:5000"
+      - "5000:5000"
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/plants
+      - MONGO_URI=mongodb://srv-captain--mongo:27017/plants
 
   mongo:
     image: "mongo"
