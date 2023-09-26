@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-myclient = MongoClient("mongodb://localhost:27017/")
+myclient = MongoClient("mongodb://srv-captain--mongo:27017/")
 plants_db = myclient["plants"]
 plants = plants_db["plants"]
 harvests_db = myclient["harvests"]
@@ -144,5 +144,5 @@ def delete(plant_id):
     return redirect(url_for('plants_list'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
 
