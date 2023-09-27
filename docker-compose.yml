@@ -11,6 +11,7 @@ services:
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - MONGO_URI=${MONGO_URI}
+      - FLASK_ENV=production
 
   mongo:
     image: "mongo"
