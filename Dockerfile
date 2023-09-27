@@ -18,5 +18,5 @@ ENV FLASK_ENV=production
 # STEP 6: Expose the port that Flask is running on
 EXPOSE 5000
 
-# STEP 7: Run Flask!
-CMD ["flask", "run", "--host=0.0.0.0"]
+# STEP 7: Run Gunicorn production WSGI server
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
