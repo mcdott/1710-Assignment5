@@ -8,13 +8,18 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://srv-captain--mongo:27017/plants
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_URI=${MONGO_URI}
 
   mongo:
     image: "mongo"
     container_name: "mongo"
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongo-data:/data/db
 

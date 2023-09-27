@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, redirect, render_template, url_for
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -8,7 +9,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-myclient = MongoClient("mongodb://srv-captain--mongo:27017/")
+myclient = MongoClient(os.getenv("MONGO_URI"))
 plants_db = myclient["plants"]
 plants = plants_db["plants"]
 harvests_db = myclient["harvests"]
