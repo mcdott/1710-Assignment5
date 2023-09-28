@@ -11,12 +11,8 @@ WORKDIR /app
 # STEP 4: Install required dependencies
 RUN pip install -r requirements.txt
 
-# STEP 5: Declare environment variables
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
-
 # STEP 6: Expose the port that Flask is running on
 EXPOSE 5000
 
-# STEP 7: Run Gunicorn production WSGI server
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+# Run app.py when the container launches
+CMD ["python", "./app.py"]
