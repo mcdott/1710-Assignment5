@@ -9,10 +9,13 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
-myclient = MongoClient(os.getenv("MONGO_URI"))
-plants_db = myclient["plants"]
+username = os.environ.get('MONGO_USERNAME')
+password = os.environ.get('MONGO_PASSWORD')
+
+myclient = MongoClient(f"mongodb://{username}:{password}@srv-captain--mongo:27017/")
+plants_db = myclient["mongo"]
 plants = plants_db["plants"]
-harvests_db = myclient["harvests"]
+harvests_db = myclient["mongo"]
 harvests = harvests_db["harvests"]
 
 ############################################################
