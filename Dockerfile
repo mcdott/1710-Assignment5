@@ -19,4 +19,4 @@ ENV FLASK_ENV=development
 EXPOSE 5000
 
 # Run app.py when the container launches
-CMD ["python3", "./app.py"]
+CMD ["flask", "run", "--host=0.0.0.0"]
