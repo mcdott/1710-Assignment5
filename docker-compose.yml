@@ -1,17 +1,47 @@
-version: "3.8"
-
+version: "3.3"
 services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    environment:
+    FLASK_ENV: development
+    ports:
+      - 27017:27017
   web:
+    container_name: web
     build: .
     ports:
-      - "5000:5000"
+      - 5000:5000
+    links:
+      - mongo
     depends_on:
       - mongo
     environment:
-      - MONGO_USERNAME=${MONGO_USERNAME}
-      - MONGO_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_URI=${MONGO_URI}
-      - FLASK_ENV=production
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      FLASK_ENV: development
+      volumes:
+        - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+# version: "3.8"
+
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "5000:5000"
+#     depends_on:
+#       - mongo
+#     environment:
+#       - MONGO_USERNAME=${MONGO_USERNAME}
+#       - MONGO_PASSWORD=${MONGO_PASSWORD}
+#       - MONGO_URI=${MONGO_URI}
+#       - FLASK_ENV=production
 #   mongo:
 #     image: "mongo"
 #     container_name: "mongo"
