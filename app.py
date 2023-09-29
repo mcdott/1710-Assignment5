@@ -13,9 +13,9 @@ username = os.environ.get('MONGO_USERNAME')
 password = os.environ.get('MONGO_PASSWORD')
 
 myclient = MongoClient(f"mongodb://{username}:{password}@srv-captain--mongo:27017/")
-plants_db = myclient["mongo"]
+plants_db = myclient["plants"]
 plants = plants_db["plants"]
-harvests_db = myclient["mongo"]
+harvests_db = myclient["harvests"]
 harvests = harvests_db["harvests"]
 
 ############################################################

@@ -20,8 +20,8 @@ services:
       - mongo
     environment:
       MONGO_URI: mongodb://mongo:27017
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
       FLASK_ENV: development
       volumes:
         - mongo-data:/data/db
